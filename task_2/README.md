@@ -7,7 +7,6 @@ In Minikube in namespace kube-system, there are many different pods running. You
 1. If you want to know what service controll each pod in kube-system namespace - you can run one command:
 ```bash
 for i in $(kubectl -n kube-system get pods | grep -v NAME | awk '{print $1}'); do echo $i; kubectl -n kube-system describe pods $i | grep "Controlled By:"; done
-coredns-64897985d-dn5bp
 ```
 The answer is 
 ```bash
