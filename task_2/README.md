@@ -78,7 +78,7 @@ deploy-web-regular-85bf8b5844-g2v9j   0/1     ContainerCreating   0          5s
 Context "minikube" modified.
 namespace "canary" deleted
 ```
-It means that with tag "canary" was 3 answer from canary app (other answers was from regular app, 20 attempts in total) and without tag canary was all 20 answers.
+It means that with tag "canary" was 3 answer from canary app (other answers was from regular app, 20 attempts in total, canary-weight=20) and without tag canary was all 20 answers.
 That's all!
 
 ### ConfigMap & Secrets
