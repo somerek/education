@@ -1,4 +1,87 @@
 # Task 2
+
+# Homework
+## Task 2.1
+In Minikube in namespace kube-system, there are many different pods running. Your task is to figure out who creates them, and who makes sure they are running (restores them after deletion).
+## Solution
+1. If you want to know what service controll each pod in kube-system namespace - you can run one command:
+```bash
+for i in $(kubectl -n kube-system get pods | grep -v NAME | awk '{print $1}'); do echo $i; kubectl -n kube-system describe pods $i | grep "Controlled By:"; done
+coredns-64897985d-dn5bp
+```
+The answer is 
+```bash
+$ for i in $(kubectl -n kube-system get pods | grep -v NAME | awk '{print $1}'); do echo $i; kubectl -n kube-system describe pods $i | grep "Controlled By:"; done
+coredns-64897985d-dn5bp
+Controlled By:  ReplicaSet/coredns-64897985d
+etcd-minikube
+Controlled By:  Node/minikube
+kube-apiserver-minikube
+Controlled By:  Node/minikube
+kube-controller-manager-minikube
+Controlled By:  Node/minikube
+kube-proxy-ppn45
+Controlled By:  DaemonSet/kube-proxy
+kube-scheduler-minikube
+Controlled By:  Node/minikube
+metrics-server-6b76bd68b6-mf9rl
+Controlled By:  ReplicaSet/metrics-server-6b76bd68b6
+storage-provisioner
+```
+2. If you want to know uid of namespace kube-system, the second command is:
+```bash
+$ kubectl get namespace kube-system -o yaml | grep uid
+  uid: 7ccc56b1-cfff-464f-9fc5-b6df69cb01f2
+```
+3. [Documentation](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/#synopsis "kubelet synopsis") says that kubelet ensures that the containers are running and healthy.
+## Task 2.2
+Implement Canary deployment of an application via Ingress. Traffic to canary deployment should be redirected if you add "canary:always" in the header, otherwise it should go to regular deployment.
+Set to redirect a percentage of traffic to canary deployment.
+## Solution
+You need to run the bash script
+```bash
+./run.sh
+```
+Output:
+```bash
+$ ./run.sh
+namespace/canary created
+NAME                   STATUS   AGE
+canary                 Active   0s
+default                Active   2d4h
+ingress-nginx          Active   2d2h
+kube-node-lease        Active   2d4h
+kube-public            Active   2d4h
+kube-system            Active   2d4h
+kubernetes-dashboard   Active   2d4h
+Context "minikube" modified.
+configmap/nginx-configmap created
+deployment.apps/deploy-web-regular created
+deployment.apps/deploy-web-canary created
+NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
+deploy-web-canary    0/1     1            0           0s
+deploy-web-regular   0/1     1            0           0s
+service/deploy-web-regular created
+service/deploy-web-canary created
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+deploy-web-canary    ClusterIP   10.97.238.207    <none>        80/TCP    0s
+deploy-web-regular   ClusterIP   10.102.250.126   <none>        80/TCP    0s
+ingress.networking.k8s.io/ingress-web-regular created
+ingress.networking.k8s.io/ingress-web-canary created
+NAME                  CLASS    HOSTS   ADDRESS   PORTS   AGE
+ingress-web-canary    <none>   *                 80      0s
+ingress-web-regular   <none>   *                 80      1s
+NAME                                  READY   STATUS              RESTARTS   AGE
+deploy-web-canary-c7cd4f67d-8ktqk     0/1     ContainerCreating   0          5s
+deploy-web-regular-85bf8b5844-g2v9j   0/1     ContainerCreating   0          5s
+20 with_tag.txt
+3 without_tag.txt
+Context "minikube" modified.
+namespace "canary" deleted
+```
+It means that with tag "canary" was 3 answer from canary app (other answers was from regular app, 20 attempts in total) and without tag canary was all 20 answers.
+That's all!
+
 ### ConfigMap & Secrets
 ```bash
 kubectl create secret generic connection-string --from-literal=DATABASE_URL=postgres://connect --dry-run=client -o yaml > secret.yaml
