@@ -47,32 +47,38 @@ $ ./run.sh
 namespace/canary created
 NAME                   STATUS   AGE
 canary                 Active   0s
-default                Active   2d4h
-ingress-nginx          Active   2d2h
-kube-node-lease        Active   2d4h
-kube-public            Active   2d4h
-kube-system            Active   2d4h
-kubernetes-dashboard   Active   2d4h
+default                Active   2d18h
+ingress-nginx          Active   2d15h
+kube-node-lease        Active   2d18h
+kube-public            Active   2d18h
+kube-system            Active   2d18h
+kubernetes-dashboard   Active   2d18h
 Context "minikube" modified.
 configmap/nginx-configmap created
+NAME               DATA   AGE
+kube-root-ca.crt   1      1s
+nginx-configmap    1      0s
 deployment.apps/deploy-web-regular created
 deployment.apps/deploy-web-canary created
 NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
 deploy-web-canary    0/1     1            0           0s
-deploy-web-regular   0/1     1            0           0s
-service/deploy-web-regular created
-service/deploy-web-canary created
-NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
-deploy-web-canary    ClusterIP   10.97.238.207    <none>        80/TCP    0s
-deploy-web-regular   ClusterIP   10.102.250.126   <none>        80/TCP    0s
+deploy-web-regular   0/1     1            0           1s
+NAME                                  READY   STATUS              RESTARTS   AGE
+deploy-web-canary-c7cd4f67d-dzvsr     0/1     ContainerCreating   0          0s
+deploy-web-regular-85bf8b5844-rvtgl   0/1     ContainerCreating   0          1s
+service/service-web-regular created
+service/service-web-canary created
+NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+service-web-canary    ClusterIP   10.110.217.224   <none>        80/TCP    0s
+service-web-regular   ClusterIP   10.103.71.237    <none>        80/TCP    0s
 ingress.networking.k8s.io/ingress-web-regular created
 ingress.networking.k8s.io/ingress-web-canary created
 NAME                  CLASS    HOSTS   ADDRESS   PORTS   AGE
 ingress-web-canary    <none>   *                 80      0s
 ingress-web-regular   <none>   *                 80      1s
-NAME                                  READY   STATUS              RESTARTS   AGE
-deploy-web-canary-c7cd4f67d-8ktqk     0/1     ContainerCreating   0          5s
-deploy-web-regular-85bf8b5844-g2v9j   0/1     ContainerCreating   0          5s
+NAME                                  READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+deploy-web-canary-c7cd4f67d-dzvsr     1/1     Running   0          6s    172.17.0.6   minikube   <none>           <none>
+deploy-web-regular-85bf8b5844-rvtgl   1/1     Running   0          7s    172.17.0.5   minikube   <none>           <none>
 20 with_tag.txt
 3 without_tag.txt
 Context "minikube" modified.
