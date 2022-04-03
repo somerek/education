@@ -32,7 +32,7 @@ storage-provisioner
 $ kubectl get namespace kube-system -o yaml | grep uid
   uid: 7ccc56b1-cfff-464f-9fc5-b6df69cb01f2
 ```
-3. [Documentation](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/#synopsis "kubelet synopsis") says that kubelet ensures that the containers are running and healthy.
+3. [Documentation](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/#synopsis "kubelet synopsis") says that **kubelet** ensures that the containers are running and healthy.
 ## Task 2.2
 Implement Canary deployment of an application via Ingress. Traffic to canary deployment should be redirected if you add "canary:always" in the header, otherwise it should go to regular deployment.
 Set to redirect a percentage of traffic to canary deployment.
