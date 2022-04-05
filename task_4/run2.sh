@@ -19,4 +19,3 @@ kubectl create deployment nginx --image=nginx
 kubectl get pods
 kubectl delete deployment nginx
 kubectl get pods --namespace prod
-kubectl config use-context minikube

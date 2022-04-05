@@ -78,6 +78,7 @@ NAME                              READY   STATUS    RESTARTS   AGE
 deploy-emptydir-d8f45fd76-qc5d2   1/1     Running   0          6s
 total 0
 ```
+As we can see, file **file.txt** is missing.
 
 ### [Read more about CSI](https://habr.com/ru/company/flant/blog/424211/)
 ### Create pv in kubernetes
