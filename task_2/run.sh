@@ -7,22 +7,34 @@ kubectl config set-context --current --namespace=canary
 # Original nginx-configmap.yaml by course author:
 kubectl apply -f nginx-configmap.yaml
 kubectl get cm
+mkdir canary
+
 # Create deployments:
-#kubectl create deployment deploy-web-regular --image=nginx --port=80 --dry-run=client -o yaml > canary/deployment-web-regular.yaml
-#kubectl create deployment deploy-web-canary --image=nginx --port=80 --dry-run=client -o yaml > canary/deployment-web-canary.yaml
-# Add volumeMounts and configMap manually:
-#        volumeMounts:
-#        - name: app-conf
-#          mountPath: /etc/nginx/conf.d
-#        resources: {}
-#      volumes:
-#      - name: app-conf
-#        configMap:
-#          name: nginx-configmap
+kubectl create deployment deploy-web-regular --image=nginx --port=80 --dry-run=client -o yaml > canary/deployment-web-regular_temp1.yaml
+kubectl create deployment deploy-web-canary --image=nginx --port=80 --dry-run=client -o yaml > canary/deployment-web-canary_temp1.yaml
+
+# Add volumeMounts and configMap:
+head -n -1 canary/deployment-web-regular_temp1.yaml > canary/deployment-web-regular_temp2.yaml
+head -n -1 canary/deployment-web-canary_temp1.yaml > canary/deployment-web-canary_temp2.yaml
+cat <<- EOF | tee canary/append.txt
+        volumeMounts:
+        - name: app-conf
+          mountPath: /etc/nginx/conf.d
+        resources: {}
+      volumes:
+      - name: app-conf
+        configMap:
+          name: nginx-configmap
+EOF
+cat canary/deployment-web-regular_temp2.yaml canary/append.txt > canary/deployment-web-regular.yaml
+cat canary/deployment-web-canary_temp2.yaml canary/append.txt > canary/deployment-web-canary.yaml
+
+# Apply deployment
 kubectl apply -f canary/deployment-web-regular.yaml
 kubectl apply -f canary/deployment-web-canary.yaml
 kubectl get deploy
 kubectl get pods
+
 # Create services:
 kubectl expose deployment deploy-web-regular --name=service-web-regular --dry-run=client -o yaml > canary/service-web-regular.yaml
 kubectl expose deployment deploy-web-canary --name=service-web-canary --dry-run=client -o yaml > canary/service-web-canary.yaml
@@ -42,7 +54,7 @@ kubectl create ingress ingress-web-canary \
 kubectl apply -f canary/ingress-web-regular.yaml
 kubectl apply -f canary/ingress-web-canary.yaml
 kubectl get ingress
-sleep 1 # wait for pods creating
+sleep 3 # wait for pods creating
 kubectl get pods -o wide
 
 # Test:

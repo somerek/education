@@ -1,4 +1,84 @@
 # Task 3
+
+# Homework
+# Task 3.1, 3.2
+* We published minio "outside" using nodePort. Do the same but using ingress.
+* Publish minio via ingress so that minio by ip_minikube and nginx returning hostname (previous job) by path ip_minikube/web are available at the same time.
+## Solution
+You need to run the bash script
+```bash
+./run1.sh
+```
+Output:
+```bash
+$ ./run1.sh
+namespace/minio created
+NAME                   STATUS   AGE
+default                Active   4d
+ingress-nginx          Active   3d21h
+kube-node-lease        Active   4d
+kube-public            Active   4d
+kube-system            Active   4d
+kubernetes-dashboard   Active   4d
+minio                  Active   0s
+Context "minikube" modified.
+persistentvolume/minio-deployment-pv created
+NAME                  CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+minio-deployment-pv   5Gi        RWO            Retain           Available                                   0s
+persistentvolumeclaim/minio-deployment-claim created
+NAME                     STATUS   VOLUME                CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+minio-deployment-claim   Bound    minio-deployment-pv   5Gi        RWO                           0s
+NAME                  CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                          STORAGECLASS   REASON   AGE
+minio-deployment-pv   5Gi        RWO            Retain           Bound    minio/minio-deployment-claim                           1s
+deployment.apps/minio created
+NAME                    READY   STATUS              RESTARTS   AGE
+minio-94fd47554-pl2xh   0/1     ContainerCreating   0          0s
+service/service-minio created
+configmap/nginx-configmap created
+deployment.apps/deploy-web-regular created
+NAME                                  READY   STATUS              RESTARTS   AGE
+deploy-web-regular-85bf8b5844-q6l8x   0/1     ContainerCreating   0          0s
+minio-94fd47554-pl2xh                 0/1     ContainerCreating   0          2s
+service/service-web-regular created
+ingress.networking.k8s.io/ingress-minio created
+NAME                                  READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+deploy-web-regular-85bf8b5844-q6l8x   1/1     Running   0          6s    172.17.0.6   minikube   <none>           <none>
+minio-94fd47554-pl2xh                 1/1     Running   0          8s    172.17.0.5   minikube   <none>           <none>
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><base href="/"/><meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="#081C42" media="(prefers-color-scheme: light)" name="theme-color"/><meta content="#081C42" media="(prefers-color-scheme: dark)" name="theme-color"/><meta content="MinIO Console" name="description"/><link href="./styles/root-styles.css" rel="stylesheet"/><link href="./apple-icon-180x180.png" rel="apple-touch-icon" sizes="180x180"/><link href="./favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/><link href="./favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/><link href="./favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/><link href="./manifest.json" rel="manifest"/><link color="#3a4e54" href="./safari-pinned-tab.svg" rel="mask-icon"/><title>MinIO Console</title><script defer="defer" src="./static/js/main.c1bfdfdb.js"></script><link href="./static/css/main.90d417ae.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"><div id="preload"><img src="./images/background.svg"/> <img src="./images/background-wave-orig2.svg"/></div><div id="loader-block"><img src="./Loader.svg"/></div></div></body></html>
+deploy-web-regular-85bf8b5844-q6l8x
+```
+## Result
+![](Screenshot_1.png)
+# Task 3.3
+* Create deploy with emptyDir save data to mountPoint emptyDir, delete pods, check data.
+## Solution
+You need to run the bash script
+```bash
+./run2.sh
+```
+## Result
+```bash
+$ ./run2.sh
+deployment.apps "deploy-emptydir" deleted
+        volumeMounts:
+          - name: cache-volume
+            mountPath: /emptyDir
+      volumes:
+        - name: cache-volume
+          emptyDir: {}
+deployment.apps/deploy-emptydir created
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+deploy-emptydir   0/1     1            0           1s
+NAME                              READY   STATUS    RESTARTS   AGE
+deploy-emptydir-d8f45fd76-6czvl   1/1     Running   0          5s
+total 0
+-rw-r--r-- 1 root root 0 Apr  4 18:40 file.txt
+pod "deploy-emptydir-d8f45fd76-6czvl" deleted
+NAME                              READY   STATUS    RESTARTS   AGE
+deploy-emptydir-d8f45fd76-qc5d2   1/1     Running   0          6s
+total 0
+```
+
 ### [Read more about CSI](https://habr.com/ru/company/flant/blog/424211/)
 ### Create pv in kubernetes
 ```bash
