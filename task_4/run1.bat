@@ -68,7 +68,6 @@ kubectl get all
 kubectl config set-context --current --namespace=prod
 kubectl create deployment nginx --image=nginx
 kubectl get all
-kubectl delete deployment nginx
 
 rem Switch to default(admin) context:
 kubectl config set-context --current --namespace=default

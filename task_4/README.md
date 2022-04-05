@@ -72,30 +72,30 @@ User "prod_admin" set.
 C:\Users\admin\28\task_4>rem Set context for user
 
 C:\Users\admin\28\task_4>kubectl config set-context context_deploy_view --cluster=minikube --user=deploy_view
-Context "context_deploy_view" modified.
+Context "context_deploy_view" created.
 
 C:\Users\admin\28\task_4>kubectl config set-context context_deploy_edit --cluster=minikube --user=deploy_edit
-Context "context_deploy_edit" modified.
+Context "context_deploy_edit" created.
 
 C:\Users\admin\28\task_4>kubectl config set-context context_prod_view --cluster=minikube --user=prod_view
-Context "context_prod_view" modified.
+Context "context_prod_view" created.
 
 C:\Users\admin\28\task_4>kubectl config set-context context_prod_admin --cluster=minikube --user=prod_admin
-Context "context_prod_admin" modified.
+Context "context_prod_admin" created.
 
 C:\Users\admin\28\task_4>rem Bind role and roleBinding to the users:
 
 C:\Users\admin\28\task_4>kubectl create role role_deploy_view --verb=get,list,watch --resource=pods,deployments
-Error from server (AlreadyExists): roles.rbac.authorization.k8s.io "role_deploy_view" already exists
+role.rbac.authorization.k8s.io/role_deploy_view created
 
 C:\Users\admin\28\task_4>kubectl create rolebinding rolebinding_deploy_view --role=role_deploy_view --user=deploy_view
-error: failed to create rolebinding: rolebindings.rbac.authorization.k8s.io "rolebinding_deploy_view" already exists
+rolebinding.rbac.authorization.k8s.io/rolebinding_deploy_view created
 
 C:\Users\admin\28\task_4>kubectl create role role_deploy_edit --verb=* --resource=pods,deployments
-Error from server (AlreadyExists): roles.rbac.authorization.k8s.io "role_deploy_edit" already exists
+role.rbac.authorization.k8s.io/role_deploy_edit created
 
 C:\Users\admin\28\task_4>kubectl create rolebinding rolebinding_deploy_edit --role=role_deploy_edit --user=deploy_edit
-error: failed to create rolebinding: rolebindings.rbac.authorization.k8s.io "rolebinding_deploy_edit" already exists
+rolebinding.rbac.authorization.k8s.io/rolebinding_deploy_edit created
 
 C:\Users\admin\28\task_4>kubectl apply -f role_prod_view.yaml
 role.rbac.authorization.k8s.io/role_prod_view created
@@ -117,11 +117,6 @@ C:\Users\admin\28\task_4>kubectl config use-context context_deploy_view
 Switched to context "context_deploy_view".
 
 C:\Users\admin\28\task_4>kubectl get all
-NAME                                  READY   STATUS    RESTARTS   AGE
-pod/deploy-emptydir-d8f45fd76-8b5w7   1/1     Running   0          4m35s
-
-NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/deploy-emptydir   1/1     1            1           4m41s
 Error from server (Forbidden): replicationcontrollers is forbidden: User "deploy_view" cannot list resource "replicationcontrollers" in API group "" in the namespace "default"
 Error from server (Forbidden): services is forbidden: User "deploy_view" cannot list resource "services" in API group "" in the namespace "default"
 Error from server (Forbidden): daemonsets.apps is forbidden: User "deploy_view" cannot list resource "daemonsets" in API group "apps" in the namespace "default"
@@ -143,13 +138,11 @@ C:\Users\admin\28\task_4>kubectl create deployment nginx --image=nginx
 deployment.apps/nginx created
 
 C:\Users\admin\28\task_4>kubectl get all
-NAME                                  READY   STATUS              RESTARTS   AGE
-pod/deploy-emptydir-d8f45fd76-8b5w7   1/1     Running             0          4m36s
-pod/nginx-85b98978db-swb75            0/1     ContainerCreating   0          1s
+NAME                         READY   STATUS              RESTARTS   AGE
+pod/nginx-85b98978db-njsqv   0/1     ContainerCreating   0          0s
 
-NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/deploy-emptydir   1/1     1            1           4m42s
-deployment.apps/nginx             0/1     1            0           1s
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx   0/1     1            0           0s
 Error from server (Forbidden): replicationcontrollers is forbidden: User "deploy_edit" cannot list resource "replicationcontrollers" in API group "" in the namespace "default"
 Error from server (Forbidden): services is forbidden: User "deploy_edit" cannot list resource "services" in API group "" in the namespace "default"
 Error from server (Forbidden): daemonsets.apps is forbidden: User "deploy_edit" cannot list resource "daemonsets" in API group "apps" in the namespace "default"
@@ -216,16 +209,13 @@ deployment.apps/nginx created
 
 C:\Users\admin\28\task_4>kubectl get all
 NAME                         READY   STATUS              RESTARTS   AGE
-pod/nginx-85b98978db-mnt2b   0/1     ContainerCreating   0          0s
+pod/nginx-85b98978db-9rwgj   0/1     ContainerCreating   0          0s
 
 NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/nginx   0/1     1            0           1s
+deployment.apps/nginx   0/1     1            0           0s
 
 NAME                               DESIRED   CURRENT   READY   AGE
 replicaset.apps/nginx-85b98978db   1         1         0       0s
-
-C:\Users\admin\28\task_4>kubectl delete deployment nginx
-deployment.apps "nginx" deleted
 
 C:\Users\admin\28\task_4>rem Switch to default(admin) context:
 
@@ -252,15 +242,15 @@ You need to run the bat script
 ```bash
 $ ./run2.sh
 serviceaccount/sa-namespace-admin configured
-rolebinding.rbac.authorization.k8s.io/rolebinding_serviceaccount configured
 User "sa-namespace-admin" set.
+rolebinding.rbac.authorization.k8s.io/rolebinding_serviceaccount configured
 Context "minikube" modified.
 deployment.apps/nginx created
-NAME                              READY   STATUS              RESTARTS   AGE
-deploy-emptydir-d8f45fd76-8b5w7   1/1     Running             0          6m32s
-nginx-85b98978db-scq9t            0/1     ContainerCreating   0          0s
+NAME                     READY   STATUS              RESTARTS   AGE
+nginx-85b98978db-dtj5w   0/1     ContainerCreating   0          0s
 deployment.apps "nginx" deleted
 Error from server (Forbidden): pods is forbidden: User "system:serviceaccount:default:sa-namespace-admin" cannot list resource "pods" in API group "" in the namespace "prod"
+Context "minikube" modified.
 ```
 
 ### Check what I can do
