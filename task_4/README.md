@@ -10,6 +10,10 @@ run1.bat
 ```
 ## Result
 ```DOS
+C:\Users\admin\28\task_4>./run1.bat
+"." не €вл€етс€ внутренней или внешней
+командой, исполн€емой программой или пакетным файлом.
+
 C:\Users\admin\28\task_4>run1.bat
 
 C:\Users\admin\28\task_4>rem Create namespace for task_4.2
@@ -111,12 +115,40 @@ rolebinding.rbac.authorization.k8s.io/rolebinding_prod_admin created
 
 C:\Users\admin\28\task_4>rem TESTS:
 
+C:\Users\admin\28\task_4>rem Switch to use context context_deploy_edit:
+
+C:\Users\admin\28\task_4>kubectl config use-context context_deploy_edit
+Switched to context "context_deploy_edit".
+
+C:\Users\admin\28\task_4>kubectl create deployment nginx --image=nginx
+deployment.apps/nginx created
+
+C:\Users\admin\28\task_4>kubectl get all
+NAME                         READY   STATUS              RESTARTS   AGE
+pod/nginx-85b98978db-6n8wd   0/1     ContainerCreating   0          1s
+
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx   0/1     1            0           1s
+Error from server (Forbidden): replicationcontrollers is forbidden: User "deploy_edit" cannot list resource "replicationcontrollers" in API group "" in the namespace "default"
+Error from server (Forbidden): services is forbidden: User "deploy_edit" cannot list resource "services" in API group "" in the namespace "default"
+Error from server (Forbidden): daemonsets.apps is forbidden: User "deploy_edit" cannot list resource "daemonsets" in API group "apps" in the namespace "default"
+Error from server (Forbidden): replicasets.apps is forbidden: User "deploy_edit" cannot list resource "replicasets" in API group "apps" in the namespace "default"
+Error from server (Forbidden): statefulsets.apps is forbidden: User "deploy_edit" cannot list resource "statefulsets" in API group "apps" in the namespace "default"
+Error from server (Forbidden): horizontalpodautoscalers.autoscaling is forbidden: User "deploy_edit" cannot list resource "horizontalpodautoscalers" in API group "autoscaling" in the namespace "default"
+Error from server (Forbidden): cronjobs.batch is forbidden: User "deploy_edit" cannot list resource "cronjobs" in API group "batch" in the namespace "default"
+Error from server (Forbidden): jobs.batch is forbidden: User "deploy_edit" cannot list resource "jobs" in API group "batch" in the namespace "default"
+
 C:\Users\admin\28\task_4>rem Switch to use context context_deploy_view:
 
 C:\Users\admin\28\task_4>kubectl config use-context context_deploy_view
 Switched to context "context_deploy_view".
 
 C:\Users\admin\28\task_4>kubectl get all
+NAME                         READY   STATUS              RESTARTS   AGE
+pod/nginx-85b98978db-6n8wd   0/1     ContainerCreating   0          1s
+
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx   0/1     1            0           1s
 Error from server (Forbidden): replicationcontrollers is forbidden: User "deploy_view" cannot list resource "replicationcontrollers" in API group "" in the namespace "default"
 Error from server (Forbidden): services is forbidden: User "deploy_view" cannot list resource "services" in API group "" in the namespace "default"
 Error from server (Forbidden): daemonsets.apps is forbidden: User "deploy_view" cannot list resource "daemonsets" in API group "apps" in the namespace "default"
@@ -128,61 +160,6 @@ Error from server (Forbidden): jobs.batch is forbidden: User "deploy_view" canno
 
 C:\Users\admin\28\task_4>kubectl create deployment nginx --image=nginx
 error: failed to create deployment: deployments.apps is forbidden: User "deploy_view" cannot create resource "deployments" in API group "apps" in the namespace "default"
-
-C:\Users\admin\28\task_4>rem Switch to use context context_deploy_edit:
-
-C:\Users\admin\28\task_4>kubectl config use-context context_deploy_edit
-Switched to context "context_deploy_edit".
-
-C:\Users\admin\28\task_4>kubectl create deployment nginx --image=nginx
-deployment.apps/nginx created
-
-C:\Users\admin\28\task_4>kubectl get all
-NAME                         READY   STATUS              RESTARTS   AGE
-pod/nginx-85b98978db-njsqv   0/1     ContainerCreating   0          0s
-
-NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/nginx   0/1     1            0           0s
-Error from server (Forbidden): replicationcontrollers is forbidden: User "deploy_edit" cannot list resource "replicationcontrollers" in API group "" in the namespace "default"
-Error from server (Forbidden): services is forbidden: User "deploy_edit" cannot list resource "services" in API group "" in the namespace "default"
-Error from server (Forbidden): daemonsets.apps is forbidden: User "deploy_edit" cannot list resource "daemonsets" in API group "apps" in the namespace "default"
-Error from server (Forbidden): replicasets.apps is forbidden: User "deploy_edit" cannot list resource "replicasets" in API group "apps" in the namespace "default"
-Error from server (Forbidden): statefulsets.apps is forbidden: User "deploy_edit" cannot list resource "statefulsets" in API group "apps" in the namespace "default"
-Error from server (Forbidden): horizontalpodautoscalers.autoscaling is forbidden: User "deploy_edit" cannot list resource "horizontalpodautoscalers" in API group "autoscaling" in the namespace "default"
-Error from server (Forbidden): cronjobs.batch is forbidden: User "deploy_edit" cannot list resource "cronjobs" in API group "batch" in the namespace "default"
-Error from server (Forbidden): jobs.batch is forbidden: User "deploy_edit" cannot list resource "jobs" in API group "batch" in the namespace "default"
-
-C:\Users\admin\28\task_4>kubectl delete deployment nginx
-deployment.apps "nginx" deleted
-
-C:\Users\admin\28\task_4>rem Switch to use context context_prod_view:
-
-C:\Users\admin\28\task_4>kubectl config use-context context_prod_view
-Switched to context "context_prod_view".
-
-C:\Users\admin\28\task_4>kubectl get all
-Error from server (Forbidden): pods is forbidden: User "prod_view" cannot list resource "pods" in API group "" in the namespace "default"
-Error from server (Forbidden): replicationcontrollers is forbidden: User "prod_view" cannot list resource "replicationcontrollers" in API group "" in the namespace "default"
-Error from server (Forbidden): services is forbidden: User "prod_view" cannot list resource "services" in API group "" in the namespace "default"
-Error from server (Forbidden): daemonsets.apps is forbidden: User "prod_view" cannot list resource "daemonsets" in API group "apps" in the namespace "default"
-Error from server (Forbidden): deployments.apps is forbidden: User "prod_view" cannot list resource "deployments" in API group "apps" in the namespace "default"
-Error from server (Forbidden): replicasets.apps is forbidden: User "prod_view" cannot list resource "replicasets" in API group "apps" in the namespace "default"
-Error from server (Forbidden): statefulsets.apps is forbidden: User "prod_view" cannot list resource "statefulsets" in API group "apps" in the namespace "default"
-Error from server (Forbidden): horizontalpodautoscalers.autoscaling is forbidden: User "prod_view" cannot list resource "horizontalpodautoscalers" in API group "autoscaling" in the namespace "default"
-Error from server (Forbidden): cronjobs.batch is forbidden: User "prod_view" cannot list resource "cronjobs" in API group "batch" in the namespace "default"
-Error from server (Forbidden): jobs.batch is forbidden: User "prod_view" cannot list resource "jobs" in API group "batch" in the namespace "default"
-
-C:\Users\admin\28\task_4>kubectl config set-context --current --namespace=prod
-Context "context_prod_view" modified.
-
-C:\Users\admin\28\task_4>kubectl get all
-No resources found in prod namespace.
-
-C:\Users\admin\28\task_4>kubectl create deployment nginx --image=nginx
-error: failed to create deployment: deployments.apps is forbidden: User "prod_view" cannot create resource "deployments" in API group "apps" in the namespace "prod"
-
-C:\Users\admin\28\task_4>kubectl config set-context --current --namespace=default
-Context "context_prod_view" modified.
 
 C:\Users\admin\28\task_4>rem Switch to use context context_prod_admin:
 
@@ -209,18 +186,54 @@ deployment.apps/nginx created
 
 C:\Users\admin\28\task_4>kubectl get all
 NAME                         READY   STATUS              RESTARTS   AGE
-pod/nginx-85b98978db-9rwgj   0/1     ContainerCreating   0          0s
+pod/nginx-85b98978db-p2p64   0/1     ContainerCreating   0          1s
 
 NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/nginx   0/1     1            0           0s
+deployment.apps/nginx   0/1     1            0           1s
 
 NAME                               DESIRED   CURRENT   READY   AGE
-replicaset.apps/nginx-85b98978db   1         1         0       0s
+replicaset.apps/nginx-85b98978db   1         1         0       1s
+
+C:\Users\admin\28\task_4>kubectl config set-context --current --namespace=default
+Context "context_prod_admin" modified.
+
+C:\Users\admin\28\task_4>rem Switch to use context context_prod_view:
+
+C:\Users\admin\28\task_4>kubectl config use-context context_prod_view
+Switched to context "context_prod_view".
+
+C:\Users\admin\28\task_4>kubectl get all
+Error from server (Forbidden): pods is forbidden: User "prod_view" cannot list resource "pods" in API group "" in the namespace "default"
+Error from server (Forbidden): replicationcontrollers is forbidden: User "prod_view" cannot list resource "replicationcontrollers" in API group "" in the namespace "default"
+Error from server (Forbidden): services is forbidden: User "prod_view" cannot list resource "services" in API group "" in the namespace "default"
+Error from server (Forbidden): daemonsets.apps is forbidden: User "prod_view" cannot list resource "daemonsets" in API group "apps" in the namespace "default"
+Error from server (Forbidden): deployments.apps is forbidden: User "prod_view" cannot list resource "deployments" in API group "apps" in the namespace "default"
+Error from server (Forbidden): replicasets.apps is forbidden: User "prod_view" cannot list resource "replicasets" in API group "apps" in the namespace "default"
+Error from server (Forbidden): statefulsets.apps is forbidden: User "prod_view" cannot list resource "statefulsets" in API group "apps" in the namespace "default"
+Error from server (Forbidden): horizontalpodautoscalers.autoscaling is forbidden: User "prod_view" cannot list resource "horizontalpodautoscalers" in API group "autoscaling" in the namespace "default"
+Error from server (Forbidden): cronjobs.batch is forbidden: User "prod_view" cannot list resource "cronjobs" in API group "batch" in the namespace "default"
+Error from server (Forbidden): jobs.batch is forbidden: User "prod_view" cannot list resource "jobs" in API group "batch" in the namespace "default"
+
+C:\Users\admin\28\task_4>kubectl config set-context --current --namespace=prod
+Context "context_prod_view" modified.
+
+C:\Users\admin\28\task_4>kubectl get all
+NAME                         READY   STATUS              RESTARTS   AGE
+pod/nginx-85b98978db-p2p64   0/1     ContainerCreating   0          2s
+
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx   0/1     1            0           2s
+
+NAME                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-85b98978db   1         1         0       2s
+
+C:\Users\admin\28\task_4>kubectl create deployment nginx --image=nginx
+error: failed to create deployment: deployments.apps is forbidden: User "prod_view" cannot create resource "deployments" in API group "apps" in the namespace "prod"
 
 C:\Users\admin\28\task_4>rem Switch to default(admin) context:
 
 C:\Users\admin\28\task_4>kubectl config set-context --current --namespace=default
-Context "context_prod_admin" modified.
+Context "context_prod_view" modified.
 
 C:\Users\admin\28\task_4>kubectl config use-context minikube
 Switched to context "minikube".
