@@ -80,7 +80,8 @@ total 0
 ```
 As we can see, file **file.txt** is missing.
 # Task 3.4
-* Optional. Raise an nfs share on a remote machine. Create a pv using this share, create a pvc for it, create a deployment. Save data to the share, delete the deployment, delete the pv/pvc, check that the data is safe.## Solution
+* Optional. Raise an nfs share on a remote machine. Create a pv using this share, create a pvc for it, create a deployment. Save data to the share, delete the deployment, delete the pv/pvc, check that the data is safe.
+## Solution
 You need to run the bash script several times:
 ```bash
 ./run3.sh

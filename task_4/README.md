@@ -241,7 +241,7 @@ C:\Users\admin\28\task_4>rem kubectl delete namespace prod
 C:\Users\admin\28\task_4>
 ```
 # Task 4.3
-* Create a serviceAccount sa-namespace-admin. Grant full rights to namespace default. Create context, authorize using the created sa, check accesses.## Solution
+* Create a serviceAccount sa-namespace-admin. Grant full rights to namespace default. Create context, authorize using the created sa, check accesses.
 ## Solution
 You need to run the bat script
 ```bash

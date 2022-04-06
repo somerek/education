@@ -1,11 +1,17 @@
-# Task 1.1
 # Homework
+## Task 1.1
+Connect to Dashboard
+## Result
+![](Screenshot_1.png)
+## Task 1.2
 * Create a deployment nginx. Set up two replicas. Remove one of the pods, see what happens.
 ## Result
 If I remove 1 of the pods, it restores.
 
-![](Screenshot_1.png)
+![](Screenshot_2.png)
 
+
+# Task 1.1
 Requirements:
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
