@@ -10,10 +10,6 @@ run1.bat
 ```
 ## Result
 ```DOS
-C:\Users\admin\28\task_4>./run1.bat
-"." не €вл€етс€ внутренней или внешней
-командой, исполн€емой программой или пакетным файлом.
-
 C:\Users\admin\28\task_4>run1.bat
 
 C:\Users\admin\28\task_4>rem Create namespace for task_4.2
