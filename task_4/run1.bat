@@ -43,24 +43,15 @@ kubectl apply -f roleBinding_prod_admin.yaml
 
 rem TESTS:
 
-rem Switch to use context context_deploy_view:
-kubectl config use-context context_deploy_view
-kubectl get all
-kubectl create deployment nginx --image=nginx
-
 rem Switch to use context context_deploy_edit:
 kubectl config use-context context_deploy_edit
 kubectl create deployment nginx --image=nginx
 kubectl get all
-kubectl delete deployment nginx
 
-rem Switch to use context context_prod_view:
-kubectl config use-context context_prod_view
-kubectl get all
-kubectl config set-context --current --namespace=prod
+rem Switch to use context context_deploy_view:
+kubectl config use-context context_deploy_view
 kubectl get all
 kubectl create deployment nginx --image=nginx
-kubectl config set-context --current --namespace=default
 
 rem Switch to use context context_prod_admin:
 kubectl config use-context context_prod_admin
@@ -68,6 +59,14 @@ kubectl get all
 kubectl config set-context --current --namespace=prod
 kubectl create deployment nginx --image=nginx
 kubectl get all
+kubectl config set-context --current --namespace=default
+
+rem Switch to use context context_prod_view:
+kubectl config use-context context_prod_view
+kubectl get all
+kubectl config set-context --current --namespace=prod
+kubectl get all
+kubectl create deployment nginx --image=nginx
 
 rem Switch to default(admin) context:
 kubectl config set-context --current --namespace=default
