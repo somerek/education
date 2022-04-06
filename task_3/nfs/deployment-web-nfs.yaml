@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: deploy-web-nfs
+  name: deploy-web-nfs
+spec:
+  selector:
+    matchLabels:
+      app: deploy-web-nfs
+  template:
+    metadata:
+      labels:
+        app: deploy-web-nfs
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        volumeMounts:
+          - name: nfs-data
+            mountPath: "/nfs-data"
+      volumes:
+        - name: nfs-data
+          persistentVolumeClaim:
+            claimName: pvc-nfs

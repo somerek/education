@@ -79,6 +79,59 @@ deploy-emptydir-d8f45fd76-qc5d2   1/1     Running   0          6s
 total 0
 ```
 As we can see, file **file.txt** is missing.
+# Task 3.4
+* Optional. Raise an nfs share on a remote machine. Create a pv using this share, create a pvc for it, create a deployment. Save data to the share, delete the deployment, delete the pv/pvc, check that the data is safe.## Solution
+You need to run the bash script several times:
+```bash
+./run3.sh
+./run3.sh
+```
+## Result
+```bash
+admin@HOME-PC MINGW64 ~/28/task_3
+$ ./run3.sh
+persistentvolume/pv-nfs created
+NAME     CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+pv-nfs   100Mi      RWX            Retain           Available           nfs                     1s
+persistentvolumeclaim/pvc-nfs created
+NAME      STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+pvc-nfs   Bound    pv-nfs   100Mi      RWX            nfs            0s
+NAME     CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM             STORAGECLASS   REASON   AGE
+pv-nfs   100Mi      RWX            Retain           Bound    default/pvc-nfs   nfs                     2s
+deployment.apps/deploy-web-nfs created
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+deploy-web-nfs   0/1     1            0           0s
+NAME                              READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+deploy-web-nfs-785dd4b7b5-wdbn5   1/1     Running   0          5s    172.17.0.3   minikube   <none>           <none>
+total 0
+-rw-r--r-- 1 root root 0 Apr  6 04:47 Wed Apr  6 07:47:50 RTZ 2022.txt
+deployment.apps "deploy-web-nfs" deleted
+persistentvolumeclaim "pvc-nfs" deleted
+persistentvolume "pv-nfs" deleted
+
+admin@HOME-PC MINGW64 ~/28/task_3
+$ ./run3.sh
+persistentvolume/pv-nfs created
+NAME     CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+pv-nfs   100Mi      RWX            Retain           Available           nfs                     0s
+persistentvolumeclaim/pvc-nfs created
+NAME      STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+pvc-nfs   Bound    pv-nfs   100Mi      RWX            nfs            0s
+NAME     CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM             STORAGECLASS   REASON   AGE
+pv-nfs   100Mi      RWX            Retain           Bound    default/pvc-nfs   nfs                     1s
+deployment.apps/deploy-web-nfs created
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+deploy-web-nfs   0/1     1            0           0s
+NAME                              READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+deploy-web-nfs-785dd4b7b5-txwn2   1/1     Running   0          5s    172.17.0.3   minikube   <none>           <none>
+total 0
+-rw-r--r-- 1 root root 0 Apr  6 04:47 Wed Apr  6 07:47:50 RTZ 2022.txt
+-rw-r--r-- 1 root root 0 Apr  6 04:48 Wed Apr  6 07:48:01 RTZ 2022.txt
+deployment.apps "deploy-web-nfs" deleted
+persistentvolumeclaim "pvc-nfs" deleted
+persistentvolume "pv-nfs" deleted
+```
+As we can see, files in folder /nfs-data are persistent
 
 ### [Read more about CSI](https://habr.com/ru/company/flant/blog/424211/)
 ### Create pv in kubernetes
